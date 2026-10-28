@@ -5,7 +5,8 @@ import * as DB from './db.js';
 let currentState = null;
 let timerInterval = null;
 let playerNickname = "Anonymous";
-let isProcessing = false; // Prevents clicking while cards are animating
+let isProcessing = false; // Prevents clicking while cards are animating 
+let isPaused = false; // Add this line
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initial Setup: Show Nickname Modal
@@ -53,8 +54,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const topScores = await DB.fetchTopScores();
         UI.renderLeaderboard(topScores, 'leaderboard-only-list');
     });
+
+    // 8. Pause and Resume Events
+    document.getElementById('pause-btn').addEventListener('click', togglePause);
+    document.getElementById('resume-btn').addEventListener('click', togglePause);
+
+function togglePause() {
+    // Prevent pausing during the initial 1-second preview or while cards animate
+    if (isProcessing) return; 
+
+    isPaused = !isPaused;
     
+    if (isPaused) {
+        clearInterval(timerInterval); // Stop the clock
+        UI.showPauseScreen(true);
+    } else {
+        UI.showPauseScreen(false);
+        // Restart the clock
+        timerInterval = setInterval(() => {
+            currentState.time += 1;
+            UI.updateStats(currentState.moves, currentState.time, currentState.lives);
+        }, 1000);
+    }
+}
+
 function startGame() {
+    isPaused = false;
+    UI.showPauseScreen(false);
     // Reset state and UI
     currentState = Game.getInitialState();
     UI.renderBoard(currentState.cards);
@@ -83,7 +109,7 @@ function startGame() {
 
 async function handleBoardClick(event) {
     // Ignore clicks if we are processing a match or if the game is over
-    if (isProcessing) return;
+    if (isProcessing || isPaused) return;
 
     // Find the closest card element that was clicked
     const cardElement = event.target.closest('.card');

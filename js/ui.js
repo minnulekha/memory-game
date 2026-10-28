@@ -182,4 +182,23 @@ export function renderLeaderboard(scoresArray, listId = "leaderboard-list") {
   });
 }
 
+/**
+ * 7. Toggle Pause Screen Overlay
+ */
+export function showPauseScreen(isPaused) {
+    const overlay = document.getElementById('pause-overlay');
+    const pauseBtn = document.getElementById('pause-btn');
+
+    if (!overlay || !pauseBtn) return;
+
+    if (isPaused) {
+        overlay.classList.remove('hidden');
+        overlay.classList.add('active');
+        pauseBtn.textContent = '▶ Resume';
+    } else {
+        overlay.classList.remove('active');
+        overlay.classList.add('hidden');
+        pauseBtn.textContent = '⏸ Pause';
+    }
+}
 

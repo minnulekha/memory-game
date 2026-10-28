@@ -34,20 +34,34 @@
         </div>
     </div>
 
-    <!-- Main Game UI -->
+<!-- Main Game UI -->
     <div id="game-container" class="hidden">
+        <!-- New subtle header for the game board -->
+        <h2 class="game-title" style="font-size: 1.8rem; margin-bottom: 20px;">✨ Memory Match ✨</h2>
+        
         <header id="stats-header">
             <div class="stat">Moves: <span id="moves-count">0</span></div>
             <div class="stat">Time: <span id="timer-count">0</span>s</div>
             <div class="stat">Lives: <span id="lives-count">3</span></div>
+            <!-- New Pause Button -->
+            <button id="pause-btn" class="btn-icon">⏸ Pause</button>
         </header>
 
-        <main id="game-board" class="grid-4x4"></main>
+        <!-- New Wrapper to contain the blur overlay -->
+        <div class="board-wrapper">
+            <main id="game-board" class="grid-4x4"></main>
+            
+            <!-- Frosted Glass Pause Overlay -->
+            <div id="pause-overlay" class="hidden">
+                <h2>Game Paused</h2>
+                <p>Take a breath. You can do this.</p>
+                <button id="resume-btn">▶ Resume</button>
+            </div>
+        </div>
         
-        <!-- Action Buttons properly grouped -->
         <div class="action-buttons">
             <button id="restart-btn" class="hidden">Play Again</button>
-            <button id="show-leaderboard-btn">🏆 Leaderboard</button>
+            <button id="show-leaderboard-btn" class="btn-secondary">🏆 Leaderboard</button>
         </div>
     </div>
 
