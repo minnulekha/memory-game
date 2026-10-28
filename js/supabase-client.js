@@ -6,8 +6,8 @@
  * 2. Replace the placeholder strings below.
  * ========================================================================== */
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+const SUPABASE_URL = 'https://xullncmhfuspzmmhysro.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_NordrRgetgyNG5D4L0wvwA_5201Sbpf';
 
 // Initializes the client using the globally loaded script from index.html
 export const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);

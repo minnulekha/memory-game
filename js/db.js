@@ -1,26 +1,80 @@
-/** ==========================================================================
+/**
  * OWNER: Member 4 (Database API Calls)
- * 
- * AI PROMPT / INSTRUCTIONS FOR GENERATION:
- * You are writing the Supabase database interactions for a vanilla JS game.
- * 
- * DATABASE SCHEMA CONTEXT:
- * Table name: 'leaderboard'
- * Columns: id (UUID), created_at (timestamp), nickname (text), moves (int), time_seconds (int), is_win (boolean).
- * 
- * REQUIRED EXPORTS:
- * 1. `export async function fetchTopScores()`: 
- *    - Uses Supabase client to select records from 'leaderboard'.
- *    - Only select rows where is_win is true.
- *    - Order by moves (ascending), then time_seconds (ascending).
- *    - Limit to top 10.
- *    - Return the array of records. Handle errors gracefully by returning an empty array if it fails.
- * 2. `export async function submitScore(nickname, moves, timeSeconds)`:
- *    - Uses Supabase client to insert a new row into 'leaderboard'.
- *    - is_win is true by default.
- *    - Return true if successful, false if error.
- * ========================================================================== */
+ * Database: Supabase
+ * Table: leaderboard
+ */
 
 import { supabase } from './supabase-client.js';
 
-// Write and export your async database functions below
+/**
+ * Fetch the top 10 winning scores.
+ * Sort by moves (ascending), then time_seconds (ascending).
+ * Returns an empty array if an error occurs.
+ */
+export async function fetchTopScores() {
+    try {
+        const { data, error } = await supabase
+            .from('leaderboard')
+            .select('id, created_at, nickname, moves, time_seconds, is_win')
+            .eq('is_win', true)
+            .order('moves', { ascending: true })
+            .order('time_seconds', { ascending: true })
+            .limit(10);
+
+        if (error) {
+            console.error('Error fetching leaderboard:', error);
+            return [];
+        }
+
+        return data ?? [];
+
+    } catch (error) {
+        console.error('Unexpected error fetching leaderboard:', error);
+        return [];
+    }
+}
+
+
+/**
+ * Submit a player's winning score to the leaderboard.
+ * Returns true if successful, false otherwise.
+ */
+export async function submitScore(nickname, moves, timeSeconds) {
+    try {
+        // Validate the input.
+        if (
+            typeof nickname !== 'string' ||
+            nickname.trim().length === 0 ||
+            !Number.isInteger(moves) ||
+            moves < 0 ||
+            !Number.isInteger(timeSeconds) ||
+            timeSeconds < 0
+        ) {
+            console.error('Invalid score data.');
+            return false;
+        }
+
+        const { error } = await supabase
+            .from('leaderboard')
+            .insert([
+                {
+                    nickname: nickname.trim(),
+                    moves: moves,
+                    time_seconds: timeSeconds,
+                    is_win: true
+                }
+            ]);
+
+        if (error) {
+            console.error('Error submitting score:', error);
+            return false;
+        }
+
+        console.log('Score submitted successfully!');
+        return true;
+
+    } catch (error) {
+        console.error('Unexpected error submitting score:', error);
+        return false;
+    }
+}
