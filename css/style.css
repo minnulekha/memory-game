@@ -308,7 +308,17 @@ button:focus-visible {
 }
 
 /* Leaderboard */
-#leaderboard-list {
+/* Container to center the buttons below the board */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+/* Leaderboard */
+#leaderboard-list, 
+#leaderboard-only-list {
     margin: 18px 0;
     padding: 0;
     list-style: none;
@@ -316,7 +326,8 @@ button:focus-visible {
     text-align: left;
 }
 
-#leaderboard-list li {
+#leaderboard-list li, 
+#leaderboard-only-list li {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -328,7 +339,8 @@ button:focus-visible {
     counter-increment: leaderboard;
 }
 
-#leaderboard-list li::before {
+#leaderboard-list li::before, 
+#leaderboard-only-list li::before {
     content: counter(leaderboard) ".";
     min-width: 24px;
     color: var(--primary);
@@ -431,4 +443,69 @@ button:focus-visible {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+}
+
+/* ==========================================================================
+   Premium Landing Page Styles
+========================================================================== */
+.landing-content {
+    max-width: 580px;
+    padding: 50px 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(252, 245, 255, 0.85));
+    border: 2px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 35px 85px rgba(110, 74, 200, 0.25);
+}
+
+.game-title {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    margin-bottom: 12px;
+    background: linear-gradient(115deg, var(--primary-dark), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.game-subtitle {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+    font-weight: 500;
+}
+
+.input-group label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding-left: 5px;
+}
+
+.input-group #nickname-input {
+    margin: 0; /* Overrides the old default margin */
+    margin-bottom: 25px;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Alternate styling for the leaderboard button */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary-dark);
+    border: 2px solid #ded3ff;
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.08);
+}
+
+.btn-secondary:hover {
+    background: #f6f3ff;
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-3px);
 }

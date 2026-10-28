@@ -160,8 +160,11 @@ export function hideModal(modalId) {
 /**
  * 6. Render the leaderboard
  */
-export function renderLeaderboard(scoresArray) {
-  const leaderboard = document.getElementById("leaderboard-list");
+/**
+ * 6. Render the leaderboard (Updated to accept a custom list ID)
+ */
+export function renderLeaderboard(scoresArray, listId = "leaderboard-list") {
+  const leaderboard = document.getElementById(listId);
 
   if (!leaderboard) return;
 
@@ -171,10 +174,12 @@ export function renderLeaderboard(scoresArray) {
   scoresArray.forEach((score) => {
     const listItem = document.createElement("li");
 
+    // Using time_seconds to fix the "undefined" issue from earlier
     listItem.textContent =
-      `${score.nickname} - Moves: ${score.moves} - Time: ${score.time}s`;
+      `${score.nickname} - Moves: ${score.moves} - Time: ${score.time_seconds}s`;
 
     leaderboard.appendChild(listItem);
   });
 }
+
 

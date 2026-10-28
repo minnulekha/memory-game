@@ -11,12 +11,26 @@
     <script type="module" src="js/main.js" defer></script>
 </head>
 <body>
-    <!-- Nickname Entry Modal -->
+    <!-- Premium Landing Page / Nickname Entry -->
     <div id="nickname-modal" class="modal active">
-        <div class="modal-content">
-            <h2>Enter Nickname</h2>
-            <input type="text" id="nickname-input" placeholder="Player 1" maxlength="15">
-            <button id="start-btn">Start Game</button>
+        <div class="modal-content landing-content">
+            <div class="landing-header">
+                <h1 class="game-title">✨ Memory Raid ✨</h1>
+                <p class="game-subtitle">Train your brain. Beat the clock. Claim the top spot.</p>
+            </div>
+            
+            <div class="landing-actions">
+                <div class="input-group">
+                    <label for="nickname-input">Ready to play?</label>
+                    <input type="text" id="nickname-input" placeholder="Enter your nickname" maxlength="15">
+                </div>
+                
+                <div class="button-group">
+                    <button id="start-btn">▶ Start Game</button>
+                    <!-- New front-page leaderboard button -->
+                    <button id="landing-leaderboard-btn" class="btn-secondary">🏆 Leaderboard</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -30,7 +44,11 @@
 
         <main id="game-board" class="grid-4x4"></main>
         
-        <button id="restart-btn" class="hidden">Play Again</button>
+        <!-- Action Buttons properly grouped -->
+        <div class="action-buttons">
+            <button id="restart-btn" class="hidden">Play Again</button>
+            <button id="show-leaderboard-btn">🏆 Leaderboard</button>
+        </div>
     </div>
 
     <!-- Game Over / Win Modal -->
@@ -46,6 +64,17 @@
                 </ul>
             </div>
             <button id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+
+    <!-- Standalone Leaderboard Modal -->
+    <div id="leaderboard-only-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🏆 Top Scores</h2>
+            <ul id="leaderboard-only-list">
+                <li>Loading...</li>
+            </ul>
+            <button id="close-leaderboard-btn" style="margin-top: 15px;">Close</button>
         </div>
     </div>
 </body>

@@ -29,7 +29,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Card Click Event (Event Delegation on the board)
     document.getElementById('game-board').addEventListener('click', handleBoardClick);
 });
+// 5. Show Standalone Leaderboard Event
+    document.getElementById('show-leaderboard-btn').addEventListener('click', async () => {
+        UI.showModal('leaderboard-only-modal');
+        // Add a temporary loading state
+        document.getElementById('leaderboard-only-list').innerHTML = '<li>Loading...</li>';
+        
+        // Fetch scores and render them into the new list
+        const topScores = await DB.fetchTopScores();
+        UI.renderLeaderboard(topScores, 'leaderboard-only-list');
+    });
 
+    // 6. Close Standalone Leaderboard Event
+    document.getElementById('close-leaderboard-btn').addEventListener('click', () => {
+        UI.hideModal('leaderboard-only-modal');
+    });
+
+    // 7. Landing Page Leaderboard Button
+    document.getElementById('landing-leaderboard-btn').addEventListener('click', async () => {
+        UI.showModal('leaderboard-only-modal');
+        document.getElementById('leaderboard-only-list').innerHTML = '<li>Loading...</li>';
+        
+        const topScores = await DB.fetchTopScores();
+        UI.renderLeaderboard(topScores, 'leaderboard-only-list');
+    });
+    
 function startGame() {
     // Reset state and UI
     currentState = Game.getInitialState();
@@ -39,12 +63,22 @@ function startGame() {
     // Ensure the game container is visible
     document.getElementById('game-container').classList.remove('hidden');
 
-    // Start Timer
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-        currentState.time += 1;
-        UI.updateStats(currentState.moves, currentState.time, currentState.lives);
-    }, 1000);
+    // PREVIEW: Lock board and flip all cards face-up
+    isProcessing = true;
+    currentState.cards.forEach((_, index) => UI.flipCardElement(index, true, false));
+
+    // Wait 1 second, then flip them back down and start the game
+    setTimeout(() => {
+        currentState.cards.forEach((_, index) => UI.flipCardElement(index, false, false));
+        isProcessing = false; // Unlock board
+        
+        // Start Timer
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            currentState.time += 1;
+            UI.updateStats(currentState.moves, currentState.time, currentState.lives);
+        }, 1000);
+    }, 1000); // 1000 milliseconds = 1 second
 }
 
 async function handleBoardClick(event) {
