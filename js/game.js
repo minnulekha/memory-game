@@ -25,7 +25,7 @@
  * ========================================================================== */
 
 // Define your 8 pairs (e.g., image names, emojis, or simple strings)
-const PAIRS = ['apple', 'banana', 'cherry', 'grape', 'orange', 'pear', 'melon', 'strawberry'];
+const PAIRS = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
 // Write and export your pure functions below
 

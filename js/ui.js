@@ -61,7 +61,7 @@ export function renderBoard(cardsArray) {
     cardFront.classList.add("card-front");
 
     const image = document.createElement("img");
-    image.src = `assets/${cardData.pairId}.png`;
+    image.src = `images/${cardData.pairId}.jpeg`;
     image.alt = "card";
 
     cardFront.appendChild(image);
