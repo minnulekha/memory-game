@@ -28,3 +28,115 @@
 const PAIRS = ['apple', 'banana', 'cherry', 'grape', 'orange', 'pear', 'melon', 'strawberry'];
 
 // Write and export your pure functions below
+
+
+export function getInitialState() {
+    const cards = PAIRS.flatMap((pairId, index) => [
+        {
+            id: index * 2 + 1,
+            pairId,
+            isFlipped: false,
+            isMatched: false
+        },
+        {
+            id: index * 2 + 2,
+            pairId,
+            isFlipped: false,
+            isMatched: false
+        }
+    ]);
+
+    // Shuffle cards randomly
+    for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+
+    return {
+        cards,
+        lives: 3,
+        moves: 0,
+        time: 0
+    };
+}
+
+export function handleCardFlip(state, cardIndex) {
+    if (isGameOver(state).isOver) return state;
+
+    if (
+        !Number.isInteger(cardIndex) ||
+        cardIndex < 0 ||
+        cardIndex >= state.cards.length
+    ) {
+        return state;
+    }
+
+    const card = state.cards[cardIndex];
+
+    if (card.isFlipped || card.isMatched) return state;
+
+    const flippedCards = state.cards.filter(
+        card => card.isFlipped && !card.isMatched
+    );
+
+    if (flippedCards.length >= 2) return state;
+
+    const cards = state.cards.map((card, index) =>
+        index === cardIndex
+            ? { ...card, isFlipped: true }
+            : card
+    );
+
+    return {
+        ...state,
+        cards,
+        moves: flippedCards.length === 1
+            ? state.moves + 1
+            : state.moves
+    };
+}
+
+export function checkMatch(state) {
+    const flippedCards = state.cards
+        .map((card, index) => ({ card, index }))
+        .filter(({ card }) => card.isFlipped && !card.isMatched);
+
+    if (flippedCards.length !== 2) return state;
+
+    const [first, second] = flippedCards;
+
+    if (first.card.pairId === second.card.pairId) {
+        const cards = state.cards.map((card, index) =>
+            index === first.index || index === second.index
+                ? { ...card, isMatched: true }
+                : card
+        );
+
+        return { ...state, cards };
+    }
+
+    const cards = state.cards.map((card, index) =>
+        index === first.index || index === second.index
+            ? { ...card, isFlipped: false }
+            : card
+    );
+
+    return {
+        ...state,
+        cards,
+        lives: Math.max(0, state.lives - 1)
+    };
+}
+
+export function isGameOver(state) {
+    const isWin =
+        state.cards.length === 16 &&
+        state.cards.every(card => card.isMatched);
+
+    const isLoss = state.lives <= 0;
+
+    return {
+        isOver: isWin || isLoss,
+        isWin
+    };
+}
