@@ -1,0 +1,8 @@
+{
+  "name": "memory-game",
+  "version": "1.0.0",
+  "description": "Memory Card Matching Game",
+  "dependencies": {
+    "mongodb": "^6.3.0"
+  }
+}
