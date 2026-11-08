@@ -2,7 +2,7 @@
 
 A premium, interactive Memory Card Matching Game built with **Vanilla JavaScript (ES Modules)**, **HTML5**, **CSS3**, and **MongoDB Atlas** via **Vercel Serverless Functions**.
 
-**🔴 Live Demo:** [Play Memory Match Here!]((https://memory-game-flax-alpha.vercel.app/)) 
+**🔴 Live Demo:** [Play Memory Match Here!](https://memory-game-flax-alpha.vercel.app/)
 
 ## 🎮 Game Features
 
